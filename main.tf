@@ -18,7 +18,7 @@ module "confluent-cluster" {
   project = var.project
   credentials_file = var.credentials_file
   myip = var.myip
-  
+
   region = "europe-west1"
   zones = ["europe-west1-b", "europe-west1-c", "europe-west1-d"]
 
