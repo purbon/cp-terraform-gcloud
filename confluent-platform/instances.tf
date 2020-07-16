@@ -1,7 +1,7 @@
 
 resource "google_compute_instance" "bastion" {
   name         = "${var.name}-bastion"
-  machine_type = var.machine_types[var.environment]
+  machine_type = var.machine_types[var.environment]["bastion"]
   tags         = [var.name, "kafka", "bastion"]
   zone         = var.zones[0]
 
@@ -32,7 +32,7 @@ resource "google_compute_instance" "bastion" {
 resource "google_compute_instance" "broker" {
   name         = "${var.name}-broker-${count.index}"
   count        = var.brokers
-  machine_type = var.machine_types[var.environment]
+  machine_type = var.machine_types[var.environment]["broker"]
   tags         = [var.name, "kafka", "broker"]
   zone         = var.zones[count.index]
 
@@ -64,7 +64,7 @@ resource "google_compute_instance" "broker" {
 resource "google_compute_instance" "zokeepper" {
   name         = "${var.name}-zokeepper-${count.index}"
   count        = var.brokers
-  machine_type = var.machine_types[var.environment]
+  machine_type = var.machine_types[var.environment]["zookeeper"]
   tags         = [var.name, "kafka", "zookeeper"]
   zone         = var.zones[count.index]
 
@@ -79,7 +79,7 @@ resource "google_compute_instance" "zokeepper" {
   boot_disk {
     initialize_params {
       image = var.image_type
-      type  = "pd-standard"
+      type  = "pd-ssd"
       size  = var.disk_size["zokeepper"]
     }
   }

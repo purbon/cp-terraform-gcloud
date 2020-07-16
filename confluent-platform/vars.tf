@@ -28,8 +28,16 @@ variable "environment" {
 variable "machine_types" {
   type    = map
   default = {
-    dev  = "f1-micro"
-    prod = "n1-highcpu-32"
+    dev  = {
+      bastion   = "e2-standard-2"
+      broker    = "e2-standard-2"
+      zookeeper = "n2-standard-4"
+    }
+    prod = {
+      bastion   = "e2-standard-2"
+      broker    = "n2-standard-16"
+      zookeeper = "n2-standard-16"
+    }
   }
 }
 
