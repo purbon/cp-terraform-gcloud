@@ -61,8 +61,8 @@ resource "google_compute_instance" "broker" {
   can_ip_forward = true
 }
 
-resource "google_compute_instance" "zokeepper" {
-  name         = "${var.name}-zokeepper-${count.index}"
+resource "google_compute_instance" "zookeeper" {
+  name         = "${var.name}-zookeeper-${count.index}"
   count        = var.brokers
   machine_type = var.machine_types[var.environment]["zookeeper"]
   tags         = [var.name, "kafka", "zookeeper"]
