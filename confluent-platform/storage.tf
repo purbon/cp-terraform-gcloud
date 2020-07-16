@@ -3,5 +3,6 @@ variable "disk_size" {
   default = {
     bastion = 512
     broker  = 1024
+    zokeepper = 1024
   }
 }

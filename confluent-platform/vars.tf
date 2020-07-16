@@ -3,6 +3,9 @@ variable "project" { }
 
 variable "credentials_file" { }
 
+variable "myip" {
+}
+
 variable "region" {
   default = "europe-west3"
 }
@@ -40,6 +43,11 @@ variable "name" {
 }
 
 variable "brokers" {
+  type = number
+  default = 1
+}
+
+variable "zookeepers" {
   type = number
   default = 1
 }
