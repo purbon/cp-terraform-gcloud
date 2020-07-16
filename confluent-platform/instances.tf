@@ -67,13 +67,13 @@ resource "google_compute_instance" "broker" {
 
 resource "google_compute_instance" "zookeeper" {
   name         = "${var.name}-zookeeper-${count.index}"
-  count        = var.brokers
+  count        = var.zookeepers
   machine_type = var.machine_types[var.environment]["zookeeper"]
   tags         = [var.name, "kafka", "zookeeper"]
   zone         = var.zones[count.index]
 
   labels = {
-    role = "zokeepper"
+    role = "zookeeper"
   }
 
   metadata = {
@@ -84,7 +84,7 @@ resource "google_compute_instance" "zookeeper" {
     initialize_params {
       image = var.image_type
       type  = "pd-ssd"
-      size  = var.disk_size["zokeepper"]
+      size  = var.disk_size["zookeeper"]
     }
   }
 
