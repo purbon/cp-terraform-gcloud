@@ -1,5 +1,5 @@
 
-resource "google_compute_instance" "vm_instance" {
+resource "google_compute_instance" "bastion" {
   name         = "${var.name}-bastion"
   machine_type = var.machine_types[var.environment]
   tags         = [var.name, "kafka", "bastion"]
@@ -15,6 +15,7 @@ resource "google_compute_instance" "vm_instance" {
   boot_disk {
     initialize_params {
       image = var.image_type
+      size  = var.disk_size["bastion"]
     }
   }
 
@@ -45,6 +46,8 @@ resource "google_compute_instance" "brokers" {
   boot_disk {
     initialize_params {
       image = var.image_type
+      type  = "pd-standard"
+      size  = var.disk_size["broker"]
     }
   }
 

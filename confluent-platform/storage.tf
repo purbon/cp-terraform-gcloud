@@ -1,0 +1,7 @@
+variable "disk_size" {
+  type    = map
+  default = {
+    bastion = 512
+    broker  = 1024
+  }
+}
