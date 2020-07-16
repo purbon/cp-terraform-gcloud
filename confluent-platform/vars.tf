@@ -32,11 +32,13 @@ variable "machine_types" {
       bastion   = "e2-standard-2"
       broker    = "e2-standard-2"
       zookeeper = "n2-standard-4"
+      connect   = "e2-standard-2"
     }
     prod = {
       bastion   = "e2-standard-2"
       broker    = "n2-standard-16"
       zookeeper = "n2-standard-16"
+      connect   = "n2-standard-16"
     }
   }
 }
@@ -56,6 +58,11 @@ variable "brokers" {
 }
 
 variable "zookeepers" {
+  type = number
+  default = 1
+}
+
+variable "connects" {
   type = number
   default = 1
 }

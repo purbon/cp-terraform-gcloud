@@ -36,7 +36,7 @@ resource "google_compute_firewall" "brokers" {
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["bastion", "broker"]
+  source_tags = ["bastion", "broker", "connect"]
   target_tags = ["broker"]
 }
 
@@ -56,6 +56,24 @@ resource "google_compute_firewall" "zookeepers" {
   source_ranges = [ "${var.myip}/32" ]
   source_tags = ["broker", "zookeeper"]
   target_tags = ["broker", "zookeeper"]
+}
+
+resource "google_compute_firewall" "connects" {
+  name    = "confluent-platform-connect-firewall"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8083"]
+  }
+
+  source_ranges = [ "${var.myip}/32" ]
+  source_tags = ["broker", "connect"]
+  target_tags = ["broker", "connect"]
 }
 
 resource "google_compute_network" "vpc_network" {
