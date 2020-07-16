@@ -58,6 +58,10 @@ resource "google_compute_instance" "broker" {
     }
   }
 
+  lifecycle {
+    ignore_changes = [attached_disk]
+  }
+
   can_ip_forward = true
 }
 
