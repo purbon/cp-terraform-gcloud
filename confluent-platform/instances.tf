@@ -2,7 +2,7 @@
 resource "google_compute_instance" "vm_instance" {
   name         = "${var.name}-bastion"
   machine_type = var.machine_types[var.environment]
-  tags         = [var.name, "kafka"]
+  tags         = [var.name, "kafka", "bastion"]
 
   labels = {
     role = "bastion"
@@ -31,7 +31,7 @@ resource "google_compute_instance" "brokers" {
   name         = "${var.name}-broker-${count.index}"
   count        = var.brokers
   machine_type = var.machine_types[var.environment]
-  tags         = [var.name, "kafka"]
+  tags         = [var.name, "kafka", "broker"]
   zone         = var.zones[count.index]
 
   labels = {
