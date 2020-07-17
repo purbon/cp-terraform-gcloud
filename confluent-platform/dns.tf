@@ -1,6 +1,6 @@
 resource "google_dns_managed_zone" "private-zone" {
   name        = "${var.name}-private-zone"
-  dns_name    = "cp.com."
+  dns_name    = "gcp.cp.com."
   description = "A private DNS zone for Confluent Platform"
   labels = {
     owner = var.name
