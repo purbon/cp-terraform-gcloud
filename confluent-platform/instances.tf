@@ -29,44 +29,6 @@ resource "google_compute_instance" "bastion" {
   can_ip_forward = true
 }
 
-resource "google_compute_target_tcp_proxy" "brokers-proxy" {
-  name            = "${var.name}-brokers-proxy"
-  backend_service = google_compute_backend_service.brokers-backend-service.id
-}
-
-resource "google_compute_backend_service" "brokers-backend-service" {
-  name        = "${var.name}-brokers-backend-service"
-  protocol    = "TCP"
-  timeout_sec = 10
-
-  health_checks = [google_compute_health_check.brokers-health_checks.id]
-  backend {
-    group = google_compute_instance_group.brokers_private_group.id
-  }
-}
-
-resource "google_compute_health_check" "brokers-health_checks" {
-  name               = "${var.name}-brokers-health-check"
-  timeout_sec        = 1
-  check_interval_sec = 1
-
-  tcp_health_check {
-    port = "9000"
-  }
-}
-
-# creates a group of dissimilar virtual machine instances
-resource "google_compute_instance_group" "brokers_private_group" {
-  name = "${var.name}-brokers-group"
-  description = "Brokers instance group"
-  zone = var.zone
-  instances = google_compute_instance.broker.*.self_link
-  named_port {
-    name = "tcp"
-    port = "9092"
-  }
-}
-
 resource "google_compute_instance" "broker" {
   name         = "${var.name}-broker-${count.index}"
   count        = var.brokers

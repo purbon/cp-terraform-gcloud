@@ -10,9 +10,9 @@ variable "myip" { }
 
 module "confluent-cluster" {
   source = "./confluent-platform"
-  brokers = 2
-  zookeepers = 1
-  connects = 0
+  brokers = 3
+  zookeepers = 3
+  connects = 1
 
   name = "pub"
   project = var.project
