@@ -29,6 +29,18 @@ resource "google_compute_instance" "bastion" {
   can_ip_forward = true
 }
 
+# creates a group of dissimilar virtual machine instances
+resource "google_compute_instance_group" "brokers_private_group" {
+  name = "${var.name}-brokers-group"
+  description = "Brokers instance group"
+  zone = var.zone
+  instances = google_compute_instance.broker.*.self_link
+  named_port {
+    name = "tcp"
+    port = "9092"
+  }
+}
+
 resource "google_compute_instance" "broker" {
   name         = "${var.name}-broker-${count.index}"
   count        = var.brokers
