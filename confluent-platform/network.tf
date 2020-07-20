@@ -1,8 +1,19 @@
 
-resource "google_compute_address" "vm_static_ip" {
-  name = "pub-kafka-static-ip"
+
+variable "kafka-port" {
+  type = number
+  default = 9092
 }
 
+variable "zookeeper-port" {
+  type = number
+  default = 2181
+}
+
+variable "connect-port" {
+  type = number
+  default = 8083
+}
 
 resource "google_compute_firewall" "default" {
   name    = "confluent-platform-firewall"
@@ -32,7 +43,7 @@ resource "google_compute_firewall" "brokers" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "9092"]
+    ports    = ["22", "${var.kafka-port}"]
   }
 
   source_ranges = [ "${var.myip}/32" ]
@@ -50,7 +61,7 @@ resource "google_compute_firewall" "zookeepers" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "2181", "2888", "3888"]
+    ports    = ["22", "${var.zookeeper-port}", "2888", "3888"]
   }
 
   source_ranges = [ "${var.myip}/32" ]
@@ -68,7 +79,7 @@ resource "google_compute_firewall" "connects" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8083"]
+    ports    = ["${var.connect-port}"]
   }
 
   source_ranges = [ "${var.myip}/32" ]
