@@ -8,6 +8,14 @@ variable "disk_size" {
   }
 }
 
+variable "broker-disk-type" {
+  default = "pd-standard"
+}
+
+variable "zookeeper-disk-type" {
+  default = "pd-ssd"
+}
+
 resource "google_compute_attached_disk" "broker" {
   disk     = element(google_compute_disk.broker.*.id, count.index)
   instance = element(google_compute_instance.broker.*.id, count.index)
@@ -17,7 +25,7 @@ resource "google_compute_attached_disk" "broker" {
 resource "google_compute_disk" "broker" {
   name  = "${var.name}-broker-${count.index}-disk"
   count = var.brokers
-  type  = "pd-standard"
+  type  = var.broker-disk-type
   zone  = var.zones[count.index]
   image = var.image_type
   labels = {
@@ -37,7 +45,7 @@ resource "google_compute_attached_disk" "zookeeper" {
 resource "google_compute_disk" "zookeeper" {
   name  = "${var.name}-zookeeper-${count.index}-disk"
   count = var.zookeepers
-  type  = "pd-ssd"
+  type  = var.zookeeper-disk-type
   zone  = var.zones[count.index]
   image = var.image_type
   labels = {

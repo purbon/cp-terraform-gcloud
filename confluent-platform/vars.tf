@@ -74,14 +74,3 @@ variable "gce_ssh_user" {
 variable "gce_ssh_pub_key_file" {
 #  default = "/Users/pere/.ssh/id_rsa_gcloud.pub"
 }
-
-provider "google" {
-
-  version = "3.5.0"
-  credentials = file(var.credentials_file)
-
-  project = var.project
-  region = var.region
-  zone = var.zone
-
-}

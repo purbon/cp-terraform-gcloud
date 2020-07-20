@@ -12,7 +12,7 @@ module "confluent-cluster" {
   source = "./confluent-platform"
   brokers = 3
   zookeepers = 3
-  connects = 1
+  connects = 2
 
   name = "pub"
   project = var.project

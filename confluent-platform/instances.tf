@@ -16,6 +16,7 @@ resource "google_compute_instance" "bastion" {
   boot_disk {
     initialize_params {
       image = var.image_type
+      type  = "pd-standard"
       size  = var.disk_size["bastion"]
     }
   }
@@ -83,7 +84,7 @@ resource "google_compute_instance" "zookeeper" {
   boot_disk {
     initialize_params {
       image = var.image_type
-      type  = "pd-ssd"
+      type  = "pd-standard"
       size  = var.disk_size["zookeeper"]
     }
   }
@@ -92,6 +93,10 @@ resource "google_compute_instance" "zookeeper" {
     network = google_compute_network.vpc_network.name
     access_config {
     }
+  }
+
+  lifecycle {
+    ignore_changes = [attached_disk]
   }
 
   can_ip_forward = true
@@ -106,7 +111,7 @@ resource "google_compute_instance" "connect" {
   zone         = var.zones[count.index]
 
   labels = {
-    role = "broker"
+    role = "connect"
   }
 
   metadata = {
