@@ -2,6 +2,8 @@
 
 require "json"
 
+system("terraform show -json > state.json")
+
 json_data=File.read("state.json")
 
 data = JSON.parse(json_data)
