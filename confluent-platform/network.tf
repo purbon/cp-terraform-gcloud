@@ -20,6 +20,11 @@ variable "schema-registry-port" {
   default = 8081
 }
 
+variable "control-center-port" {
+  type = number
+  default = 9021
+}
+
 resource "google_compute_firewall" "default" {
   name    = "confluent-platform-firewall"
   network = google_compute_network.vpc_network.name
@@ -88,7 +93,7 @@ resource "google_compute_firewall" "connects" {
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["broker", "connect"]
+  source_tags = ["broker", "connect", "control-center"]
   target_tags = ["broker", "connect"]
 }
 
@@ -106,8 +111,26 @@ resource "google_compute_firewall" "schema-registrys" {
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["broker", "schema-registry"]
+  source_tags = ["broker", "schema-registry", "connect", "control-center"]
   target_tags = ["broker", "schema-registry"]
+}
+
+resource "google_compute_firewall" "control-center" {
+  name    = "confluent-platform-control-center-firewall"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["${var.control-center-port}"]
+  }
+
+  source_ranges = [ "${var.myip}/32" ]
+  source_tags = ["broker", "control-center"]
+  target_tags = ["broker", "control-center"]
 }
 
 resource "google_compute_network" "vpc_network" {

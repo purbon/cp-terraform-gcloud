@@ -166,3 +166,35 @@ resource "google_compute_instance" "schema-registry" {
 
   can_ip_forward = true
 }
+
+
+resource "google_compute_instance" "control-center" {
+  name         = "${var.name}-control-center"
+  machine_type = var.machine_types[var.environment]["control-center"]
+  tags         = [var.name, "kafka", "control-center"]
+  zone         = var.zones[0]
+
+  labels = {
+    role = "control-center"
+  }
+
+  metadata = {
+    ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
+  }
+
+  boot_disk {
+    initialize_params {
+      image = var.image_type
+      type  = "pd-standard"
+      size  = var.disk_size["control-center"]
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+    }
+  }
+
+  can_ip_forward = true
+}

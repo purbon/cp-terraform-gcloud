@@ -6,6 +6,7 @@ variable "disk_size" {
     zookeeper = 1024
     connect   = 512
     schema-registry = 512
+    control-center = 1024
   }
 }
 

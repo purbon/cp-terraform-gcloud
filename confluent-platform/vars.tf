@@ -34,6 +34,7 @@ variable "machine_types" {
       zookeeper         = "n2-standard-4"
       connect           = "e2-standard-2"
       schema-registry   = "e2-standard-2"
+      control-center    = "e2-standard-2"
     }
     prod = {
       bastion           = "e2-standard-2"
@@ -41,6 +42,7 @@ variable "machine_types" {
       zookeeper         = "n2-standard-16"
       connect           = "n2-standard-16"
       schema-registry   = "n2-standard-4"
+      control-center    = "n2-standard-16"
     }
   }
 }
