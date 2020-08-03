@@ -12,6 +12,14 @@ variable "region" { }
 variable "zone"   { }
 variable "zones"  { }
 
+variable "owner_name" {
+  default = ""
+}
+
+variable "owner_email" {
+  default = ""
+}
+
 module "confluent-platform-network" {
   source = "./confluent-platform-network"
   name = var.name
@@ -38,6 +46,9 @@ module "confluent-cluster" {
   region = var.region
   zones = var.zones
 
+  owner_email = var.owner_email
+  owner_name = var.owner_name
+
   gce_ssh_pub_key_file = var.ssh_pub_key
 }
 
@@ -54,6 +65,10 @@ module "confluent-platform-control-center" {
 
   region = var.region
   zone   = var.zone
+
+
+  owner_email = var.owner_email
+  owner_name = var.owner_name
 
   gce_ssh_pub_key_file = var.ssh_pub_key
 

@@ -14,6 +14,16 @@ variable "name" {
   #default = ""
 }
 
+variable "owner_name" {
+  type = string
+  default = ""
+}
+
+variable "owner_email" {
+  type = string
+  default = ""
+}
+
 variable "region" {
   default = "europe-west3"
 }

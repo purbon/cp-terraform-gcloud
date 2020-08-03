@@ -7,6 +7,8 @@ resource "google_compute_instance" "bastion" {
 
   labels = {
     role = "bastion"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
   }
 
   metadata = {
@@ -39,6 +41,8 @@ resource "google_compute_instance" "broker" {
 
   labels = {
     role = "broker"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
   }
 
   metadata = {
@@ -75,6 +79,8 @@ resource "google_compute_instance" "zookeeper" {
 
   labels = {
     role = "zookeeper"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
   }
 
   metadata = {
@@ -112,6 +118,8 @@ resource "google_compute_instance" "connect" {
 
   labels = {
     role = "connect"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
   }
 
   metadata = {
@@ -144,6 +152,8 @@ resource "google_compute_instance" "schema-registry" {
 
   labels = {
     role = "connect"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
   }
 
   metadata = {

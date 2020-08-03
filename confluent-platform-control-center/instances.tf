@@ -6,6 +6,8 @@ resource "google_compute_instance" "control-center" {
 
   labels = {
     role = "control-center"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
   }
 
   metadata = {

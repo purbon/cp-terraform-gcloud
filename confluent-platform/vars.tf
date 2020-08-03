@@ -54,7 +54,16 @@ variable "image_type" {
 
 variable "name" {
   type = string
-  #default = ""
+}
+
+variable "owner_name" {
+  type = string
+  default = ""
+}
+
+variable "owner_email" {
+  type = string
+  default = ""
 }
 
 variable "brokers" {
@@ -81,6 +90,4 @@ variable "gce_ssh_user" {
   default = "admin"
 }
 
-variable "gce_ssh_pub_key_file" {
-#  default = "/Users/pere/.ssh/id_rsa_gcloud.pub"
-}
+variable "gce_ssh_pub_key_file" { }
