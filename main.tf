@@ -25,8 +25,8 @@ module "confluent-platform-network" {
   name = var.name
   project = var.project
   credentials_file = var.credentials_file
-  region = "europe-west1"
-  zone   = "europe-west1-b"
+  region = var.region
+  zone   = var.zone
 }
 
 module "confluent-cluster" {
