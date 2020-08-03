@@ -3,14 +3,18 @@
 ##
 
 variable "project" { }
-
 variable "credentials_file" { }
-
 variable "myip" { }
+variable "name" { }
+variable "ssh_pub_key" { }
+
+variable "region" { }
+variable "zone"   { }
+variable "zones"  { }
 
 module "confluent-platform-network" {
   source = "./confluent-platform-network"
-  name = "pub"
+  name = var.name
   project = var.project
   credentials_file = var.credentials_file
   region = "europe-west1"
@@ -26,21 +30,21 @@ module "confluent-cluster" {
 
   vpc_network_name = module.confluent-platform-network.vpc_net_name
 
-  name = "pub"
+  name = var.name
   project = var.project
   credentials_file = var.credentials_file
   myip = var.myip
 
-  region = "europe-west1"
-  zones = ["europe-west1-b", "europe-west1-c", "europe-west1-d"]
+  region = var.region
+  zones = var.zones
 
-  gce_ssh_pub_key_file = "/Users/pere/.ssh/id_rsa_gcloud.pub"
+  gce_ssh_pub_key_file = var.ssh_pub_key
 }
 
 module "confluent-platform-control-center" {
   source = "./confluent-platform-control-center"
 
-  name = "pub"
+  name = var.name
   project = var.project
   credentials_file = var.credentials_file
   myip = var.myip
@@ -48,9 +52,9 @@ module "confluent-platform-control-center" {
   vpc_network_name = module.confluent-platform-network.vpc_net_name
   dns_zone = module.confluent-cluster.dns_zone
 
-  region = "europe-west1"
-  zone   =  "europe-west1-b"
+  region = var.region
+  zone   = var.zone
 
-  gce_ssh_pub_key_file = "/Users/pere/.ssh/id_rsa_gcloud.pub"
+  gce_ssh_pub_key_file = var.ssh_pub_key
 
 }
