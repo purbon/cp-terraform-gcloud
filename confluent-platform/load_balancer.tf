@@ -6,7 +6,7 @@ resource "google_compute_forwarding_rule" "default" {
   load_balancing_scheme = "INTERNAL"
   backend_service       = google_compute_region_backend_service.brokers_service.id
   all_ports             = true
-  network               = google_compute_network.vpc_network.name
+  network               = var.vpc_network_name
 
   #target     = google_compute_target_pool.brokers_pool.id
 }

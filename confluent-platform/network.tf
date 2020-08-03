@@ -20,14 +20,9 @@ variable "schema-registry-port" {
   default = 8081
 }
 
-variable "control-center-port" {
-  type = number
-  default = 9021
-}
-
 resource "google_compute_firewall" "default" {
   name    = "confluent-platform-firewall"
-  network = google_compute_network.vpc_network.name
+  network = var.vpc_network_name
 
   allow {
     protocol = "icmp"
@@ -45,7 +40,7 @@ resource "google_compute_firewall" "default" {
 
 resource "google_compute_firewall" "brokers" {
   name    = "confluent-platform-ak-firewall"
-  network = google_compute_network.vpc_network.name
+  network = var.vpc_network_name
 
   allow {
     protocol = "icmp"
@@ -63,7 +58,7 @@ resource "google_compute_firewall" "brokers" {
 
 resource "google_compute_firewall" "zookeepers" {
   name    = "confluent-platform-zk-firewall"
-  network = google_compute_network.vpc_network.name
+  network = var.vpc_network_name
 
   allow {
     protocol = "icmp"
@@ -81,7 +76,7 @@ resource "google_compute_firewall" "zookeepers" {
 
 resource "google_compute_firewall" "connects" {
   name    = "confluent-platform-connect-firewall"
-  network = google_compute_network.vpc_network.name
+  network = var.vpc_network_name
 
   allow {
     protocol = "icmp"
@@ -99,7 +94,7 @@ resource "google_compute_firewall" "connects" {
 
 resource "google_compute_firewall" "schema-registrys" {
   name    = "confluent-platform-schema-registry-firewall"
-  network = google_compute_network.vpc_network.name
+  network = var.vpc_network_name
 
   allow {
     protocol = "icmp"
@@ -113,28 +108,4 @@ resource "google_compute_firewall" "schema-registrys" {
   source_ranges = [ "${var.myip}/32" ]
   source_tags = ["broker", "schema-registry", "connect", "control-center"]
   target_tags = ["broker", "schema-registry"]
-}
-
-resource "google_compute_firewall" "control-center" {
-  name    = "confluent-platform-control-center-firewall"
-  network = google_compute_network.vpc_network.name
-
-  allow {
-    protocol = "icmp"
-  }
-
-  allow {
-    protocol = "tcp"
-    ports    = ["${var.control-center-port}"]
-  }
-
-  source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["broker", "control-center"]
-  target_tags = ["broker", "control-center"]
-}
-
-resource "google_compute_network" "vpc_network" {
-  name = "${var.name}-kafka-network"
-  description = "A network for Confluent Platform"
-  auto_create_subnetworks = true
 }

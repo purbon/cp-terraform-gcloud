@@ -3,8 +3,9 @@ variable "project" { }
 
 variable "credentials_file" { }
 
-variable "myip" {
-}
+variable "myip" { }
+
+variable "vpc_network_name" {}
 
 variable "region" {
   default = "europe-west3"

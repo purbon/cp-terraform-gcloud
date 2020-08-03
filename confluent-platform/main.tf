@@ -18,3 +18,7 @@ output "ip" {
 output "brokers" {
   value = google_compute_instance.broker.*.id
 }
+
+output "dns_zone" {
+  value = google_dns_managed_zone.private-zone
+}

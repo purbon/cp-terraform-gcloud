@@ -10,7 +10,7 @@ resource "google_dns_managed_zone" "private-zone" {
 
   private_visibility_config {
     networks {
-      network_url = "https://www.googleapis.com/compute/v1/projects/${var.project}/global/networks/${google_compute_network.vpc_network.name}"
+      network_url = "https://www.googleapis.com/compute/v1/projects/${var.project}/global/networks/${var.vpc_network_name}"
     }
   }
 }
@@ -43,13 +43,4 @@ resource "google_dns_record_set" "schema-registrys" {
   managed_zone = google_dns_managed_zone.private-zone.name
 
   rrdatas  = ["${element(google_compute_instance.schema-registry.*.network_interface.0.network_ip, count.index)}"]
-}
-
-resource "google_dns_record_set" "control-center" {
-  name  = "c3.${google_dns_managed_zone.private-zone.dns_name}"
-  type  = "A"
-  ttl   = 300
-  managed_zone = google_dns_managed_zone.private-zone.name
-
-  rrdatas  = ["${google_compute_instance.control-center.network_interface.0.network_ip}"]
 }
