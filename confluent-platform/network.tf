@@ -15,6 +15,11 @@ variable "connect-port" {
   default = 8083
 }
 
+variable "schema-registry-port" {
+  type = number
+  default = 8081
+}
+
 resource "google_compute_firewall" "default" {
   name    = "confluent-platform-firewall"
   network = google_compute_network.vpc_network.name
@@ -85,6 +90,24 @@ resource "google_compute_firewall" "connects" {
   source_ranges = [ "${var.myip}/32" ]
   source_tags = ["broker", "connect"]
   target_tags = ["broker", "connect"]
+}
+
+resource "google_compute_firewall" "schema-registrys" {
+  name    = "confluent-platform-schema-registry-firewall"
+  network = google_compute_network.vpc_network.name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["${var.schema-registry-port}"]
+  }
+
+  source_ranges = [ "${var.myip}/32" ]
+  source_tags = ["broker", "schema-registry"]
+  target_tags = ["broker", "schema-registry"]
 }
 
 resource "google_compute_network" "vpc_network" {

@@ -35,12 +35,12 @@ resource "google_dns_record_set" "zookeeper" {
   rrdatas  = ["${element(google_compute_instance.zookeeper.*.network_interface.0.network_ip, count.index)}"]
 }
 
-resource "google_dns_record_set" "connect" {
-  name  = "kc${count.index}.${google_dns_managed_zone.private-zone.dns_name}"
+resource "google_dns_record_set" "schema-registrys" {
+  name  = "sr${count.index}.${google_dns_managed_zone.private-zone.dns_name}"
   type  = "A"
   ttl   = 300
-  count = var.connects
+  count = var.schema-registrys
   managed_zone = google_dns_managed_zone.private-zone.name
 
-  rrdatas  = ["${element(google_compute_instance.connect.*.network_interface.0.network_ip, count.index)}"]
+  rrdatas  = ["${element(google_compute_instance.schema-registry.*.network_interface.0.network_ip, count.index)}"]
 }

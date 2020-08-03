@@ -29,16 +29,18 @@ variable "machine_types" {
   type    = map
   default = {
     dev  = {
-      bastion   = "e2-standard-2"
-      broker    = "e2-standard-2"
-      zookeeper = "n2-standard-4"
-      connect   = "e2-standard-2"
+      bastion           = "e2-standard-2"
+      broker            = "e2-standard-2"
+      zookeeper         = "n2-standard-4"
+      connect           = "e2-standard-2"
+      schema-registry   = "e2-standard-2"
     }
     prod = {
-      bastion   = "e2-standard-2"
-      broker    = "n2-standard-16"
-      zookeeper = "n2-standard-16"
-      connect   = "n2-standard-16"
+      bastion           = "e2-standard-2"
+      broker            = "n2-standard-16"
+      zookeeper         = "n2-standard-16"
+      connect           = "n2-standard-16"
+      schema-registry   = "n2-standard-4"
     }
   }
 }
@@ -63,6 +65,11 @@ variable "zookeepers" {
 }
 
 variable "connects" {
+  type = number
+  default = 1
+}
+
+variable "schema-registrys" {
   type = number
   default = 1
 }

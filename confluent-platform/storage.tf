@@ -5,6 +5,7 @@ variable "disk_size" {
     broker    = 1024
     zookeeper = 1024
     connect   = 512
+    schema-registry = 512
   }
 }
 

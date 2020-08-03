@@ -134,3 +134,35 @@ resource "google_compute_instance" "connect" {
 
   can_ip_forward = true
 }
+
+resource "google_compute_instance" "schema-registry" {
+  name         = "${var.name}-schema-registry-${count.index}"
+  count        = var.schema-registrys
+  machine_type = var.machine_types[var.environment]["schema-registry"]
+  tags         = [var.name, "kafka", "schema-registry"]
+  zone         = var.zones[count.index]
+
+  labels = {
+    role = "connect"
+  }
+
+  metadata = {
+    ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
+  }
+
+  boot_disk {
+    initialize_params {
+      image = var.image_type
+      type  = "pd-standard"
+      size  = var.disk_size["schema-registry"]
+    }
+  }
+
+  network_interface {
+    network = google_compute_network.vpc_network.name
+    access_config {
+    }
+  }
+
+  can_ip_forward = true
+}
