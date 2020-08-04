@@ -31,10 +31,10 @@ module "confluent-platform-network" {
 
 module "confluent-cluster" {
   source = "./confluent-platform"
-  brokers = 3
+  brokers = 5
   zookeepers = 3
   connects = 0
-  schema-registrys = 2
+  schema-registrys = 0
 
   vpc_network_name = module.confluent-platform-network.vpc_net_name
 
