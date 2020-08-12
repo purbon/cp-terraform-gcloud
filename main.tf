@@ -33,8 +33,8 @@ module "confluent-cluster" {
   source = "./confluent-platform"
   brokers = 5
   zookeepers = 3
-  connects = 0
-  schema-registrys = 0
+  connects = 2
+  schema-registrys = 1
 
   vpc_network_name = module.confluent-platform-network.vpc_net_name
 

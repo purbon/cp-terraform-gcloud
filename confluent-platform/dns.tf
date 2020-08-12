@@ -44,3 +44,13 @@ resource "google_dns_record_set" "schema-registrys" {
 
   rrdatas  = ["${element(google_compute_instance.schema-registry.*.network_interface.0.network_ip, count.index)}"]
 }
+
+resource "google_dns_record_set" "connect" {
+  name  = "kc${count.index}.${google_dns_managed_zone.private-zone.dns_name}"
+  type  = "A"
+  ttl   = 300
+  count = var.connects
+  managed_zone = google_dns_managed_zone.private-zone.name
+
+  rrdatas  = ["${element(google_compute_instance.connect.*.network_interface.0.network_ip, count.index)}"]
+}

@@ -108,7 +108,6 @@ resource "google_compute_instance" "zookeeper" {
   can_ip_forward = true
 }
 
-
 resource "google_compute_instance" "connect" {
   name         = "${var.name}-connect-${count.index}"
   count        = var.connects
