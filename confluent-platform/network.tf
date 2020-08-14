@@ -52,7 +52,7 @@ resource "google_compute_firewall" "brokers" {
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["bastion", "broker", "connect"]
+  source_tags = ["bastion", "broker", "connect", "schema-registry"]
   target_tags = ["broker"]
 }
 
