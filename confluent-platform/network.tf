@@ -48,11 +48,11 @@ resource "google_compute_firewall" "brokers" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "${var.kafka-port}"]
+    ports    = ["22", "${var.kafka-port}", "8090", "9091"]
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["bastion", "broker", "connect", "schema-registry"]
+  source_tags = ["bastion", "broker", "connect", "schema-registry", "control-center"]
   target_tags = ["broker"]
 }
 
@@ -108,4 +108,22 @@ resource "google_compute_firewall" "schema-registrys" {
   source_ranges = [ "${var.myip}/32" ]
   source_tags = ["broker", "schema-registry", "connect", "control-center"]
   target_tags = ["broker", "schema-registry"]
+}
+
+resource "google_compute_firewall" "ldaps" {
+  name    = "confluent-platform-ldap-firewall"
+  network = var.vpc_network_name
+
+  allow {
+    protocol = "icmp"
+  }
+
+  allow {
+    protocol = "tcp"
+    ports    = ["389"]
+  }
+
+  source_ranges = [ "${var.myip}/32" ]
+  source_tags = ["bastion", "broker", "schema-registry", "connect", "control-center"]
+  target_tags = ["bastion", "broker", "schema-registry", "connect", "control-center"]
 }

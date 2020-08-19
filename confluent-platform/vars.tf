@@ -36,6 +36,7 @@ variable "machine_types" {
       connect           = "e2-standard-2"
       schema-registry   = "e2-standard-2"
       control-center    = "e2-standard-2"
+      ldap              = "e2-standard-2"
     }
     prod = {
       bastion           = "e2-standard-2"
@@ -44,6 +45,7 @@ variable "machine_types" {
       connect           = "n2-standard-16"
       schema-registry   = "n2-standard-4"
       control-center    = "n2-standard-16"
+      ldap              = "e2-standard-2"
     }
   }
 }
@@ -82,6 +84,11 @@ variable "connects" {
 }
 
 variable "schema-registrys" {
+  type = number
+  default = 1
+}
+
+variable "ldaps" {
   type = number
   default = 1
 }

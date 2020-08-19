@@ -7,6 +7,7 @@ variable "disk_size" {
     connect   = 512
     schema-registry = 512
     control-center = 1024
+    ldap = 512
   }
 }
 

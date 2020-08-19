@@ -175,3 +175,37 @@ resource "google_compute_instance" "schema-registry" {
 
   can_ip_forward = true
 }
+
+resource "google_compute_instance" "ldap" {
+  name         = "${var.name}-ldap-${count.index}"
+  count        = var.ldaps
+  machine_type = var.machine_types[var.environment]["ldap"]
+  tags         = [var.name, "kafka", "ldap"]
+  zone         = element(var.zones, count.index)
+
+  labels = {
+    role = "ldap"
+    owner_email = var.owner_email
+    owner_name = var.owner_name
+  }
+
+  metadata = {
+    ssh-keys = "${var.gce_ssh_user}:${file(var.gce_ssh_pub_key_file)}"
+  }
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-10"
+      type  = "pd-standard"
+      size  = var.disk_size["ldap"]
+    }
+  }
+
+  network_interface {
+    network = var.vpc_network_name
+    access_config {
+    }
+  }
+
+  can_ip_forward = true
+}

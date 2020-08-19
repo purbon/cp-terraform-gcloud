@@ -31,7 +31,7 @@ module "confluent-platform-network" {
 
 module "confluent-cluster" {
   source = "./confluent-platform"
-  brokers = 5
+  brokers = 3
   zookeepers = 3
   connects = 2
   schema-registrys = 1
