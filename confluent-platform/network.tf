@@ -120,10 +120,10 @@ resource "google_compute_firewall" "ldaps" {
 
   allow {
     protocol = "tcp"
-    ports    = ["389"]
+    ports    = ["389", "80"]
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["bastion", "broker", "schema-registry", "connect", "control-center"]
-  target_tags = ["bastion", "broker", "schema-registry", "connect", "control-center"]
+  source_tags = ["kafka"]
+  target_tags = ["kafka", "ldap"]
 }
