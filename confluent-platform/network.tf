@@ -48,12 +48,12 @@ resource "google_compute_firewall" "brokers" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22", "${var.kafka-port}", "8090", "9091"]
+    ports    = ["22", "${var.kafka-port}", "8090", "9091", "7771"]
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["bastion", "broker", "connect", "schema-registry", "control-center"]
-  target_tags = ["broker"]
+  source_tags = ["bastion", "broker", "connect", "schemas", "control-center"]
+  #target_tags = ["broker", "schemas"]
 }
 
 resource "google_compute_firewall" "zookeepers" {
@@ -71,7 +71,7 @@ resource "google_compute_firewall" "zookeepers" {
 
   source_ranges = [ "${var.myip}/32" ]
   source_tags = ["broker", "zookeeper"]
-  target_tags = ["broker", "zookeeper"]
+  #target_tags = ["broker", "zookeeper"]
 }
 
 resource "google_compute_firewall" "connects" {
@@ -89,7 +89,7 @@ resource "google_compute_firewall" "connects" {
 
   source_ranges = [ "${var.myip}/32" ]
   source_tags = ["broker", "connect", "control-center"]
-  target_tags = ["broker", "connect"]
+#  target_tags = ["broker", "connect"]
 }
 
 resource "google_compute_firewall" "schema-registrys" {
@@ -106,8 +106,8 @@ resource "google_compute_firewall" "schema-registrys" {
   }
 
   source_ranges = [ "${var.myip}/32" ]
-  source_tags = ["broker", "schema-registry", "connect", "control-center"]
-  target_tags = ["broker", "schema-registry"]
+  source_tags = ["broker", "schemas", "connect", "control-center"]
+#  target_tags = ["broker", "schemas"]
 }
 
 resource "google_compute_firewall" "ldaps" {

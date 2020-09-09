@@ -35,6 +35,7 @@ module "confluent-cluster" {
   zookeepers = 3
   connects = 2
   schema-registrys = 1
+  environment = "prod"
 
   vpc_network_name = module.confluent-platform-network.vpc_net_name
 
@@ -59,6 +60,7 @@ module "confluent-platform-control-center" {
   project = var.project
   credentials_file = var.credentials_file
   myip = var.myip
+  environment = "prod"
 
   vpc_network_name = module.confluent-platform-network.vpc_net_name
   dns_zone = module.confluent-cluster.dns_zone

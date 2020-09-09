@@ -146,7 +146,7 @@ resource "google_compute_instance" "schema-registry" {
   name         = "${var.name}-schema-registry-${count.index}"
   count        = var.schema-registrys
   machine_type = var.machine_types[var.environment]["schema-registry"]
-  tags         = [var.name, "kafka", "schema-registry"]
+  tags         = [var.name, "kafka", "schemas"]
   zone         = element(var.zones, count.index)
 
   labels = {
